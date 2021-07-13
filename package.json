@@ -11,19 +11,19 @@
   ],
   "activationEvents": [
     "*",
-    "onCommand:extension.breakpoint_export",
-    "onCommand:extension.breakpoint_load"
+    "onCommand:extension.breakpoint_export2",
+    "onCommand:extension.breakpoint_load2"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.breakpoint_export",
-        "title": "export breakpoints"
+        "command": "extension.breakpoint_export2",
+        "title": "export breakpoints2"
       },
       {
-        "command": "extension.breakpoint_import",
-        "title": "import breakpoints"
+        "command": "extension.breakpoint_import2",
+        "title": "import breakpoints2"
       }
     ]
   },

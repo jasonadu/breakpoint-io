@@ -10,8 +10,8 @@ function activate(context) {
      * for the first time.
      */
     vscode.debug.breakpoints;
-    let breakpoints_export = vscode.commands.registerCommand("extension.breakpoint_export", export_1.breakpoint_export);
-    let breakpoints_load = vscode.commands.registerCommand("extension.breakpoint_import", import_1.breakpoint_import);
+    let breakpoints_export = vscode.commands.registerCommand("extension.breakpoint_export2", export_1.breakpoint_export);
+    let breakpoints_load = vscode.commands.registerCommand("extension.breakpoint_import2", import_1.breakpoint_import);
     context.subscriptions.push(breakpoints_export);
     context.subscriptions.push(breakpoints_load);
 }

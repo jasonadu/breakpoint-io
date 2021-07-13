@@ -5,10 +5,14 @@ const fs_1 = require("fs");
 const ajv = require("ajv");
 const BreakpointIO_1 = require("../objects/BreakpointIO");
 const Logger_1 = require("../objects/Logger");
+
 function ConvertToSourceBreakpoint(point) {
     let workspace_path = vscode.workspace.workspaceFolders[0].uri.fsPath;
-    return new vscode.SourceBreakpoint(new vscode.Location(vscode.Uri.file(`${workspace_path}${point.location}`), new vscode.Range(new vscode.Position(point.line[0].line, point.line[0].character), new vscode.Position(point.line[1].line, point.line[1].character))), point.enabled, point.condition, point.hitCondition, point.logMessage);
+    let location = vscode.Uri.file(`${workspace_path}${point.location}`);
+    let range = new vscode.Range(new vscode.Position(point.line[0].line, point.line[0].character), new vscode.Position(point.line[1].line, point.line[1].character));
+    return new vscode.SourceBreakpoint(new vscode.Location(location, range), point.enabled, point.condition, point.hitCondition, point.logMessage);
 }
+
 function breakpoint_import(context) {
     let workspace_path = vscode.workspace.workspaceFolders[0].uri.fsPath;
     let breakpoints_json = fs_1.readFileSync(`${workspace_path}//.vscode//breakpoints.json`, { encoding: "utf8" });
@@ -27,6 +31,7 @@ function breakpoint_import(context) {
             }
         });
         vscode.debug.addBreakpoints(breakpoints);
+        
         let base_message = `Found ${customBreakpoints.length} breakpoints`;
         if (errors.length > 0) {
             vscode.window.showErrorMessage(base_message +

@@ -15,7 +15,15 @@ function breakpoint_export(context) {
             breakpoints.forEach(element => {
                 if (element !== undefined || element !== null) {
                     let point = element;
-                    let newElement = new BreakpointIO_1.BreakpointIO(`${point.location.uri.path.substring(workspace_uri_path)}`, point.location.range, point.enabled, point.condition, point.hitCondition, point.logMessage);
+                    let loc_path = point.location.uri.path;
+                    // do not split string for java denpendency
+                    if (!javaDependencyCheck(loc_path)) {
+                        loc_path = `${loc_path.substring(workspace_uri_path)}`;
+                    }
+                    // let newPath = `${loc_path.substring(workspace_uri_path)}`;
+                    // let range = point.location.range._start;
+                    let range = point.location.range;
+                    let newElement = new BreakpointIO_1.BreakpointIO(loc_path, range, point.enabled, point.condition, point.hitCondition, point.logMessage);
                     breakpoints_array.push(newElement);
                 }
             });
@@ -29,6 +37,17 @@ function breakpoint_export(context) {
     else {
         vscode.window.showErrorMessage("No breakpoints found. If this is your first time attempting to export, please try again");
     }
+}
+/**
+ * check for java dependency, whether path contains string that like class in jar file.
+ * @param {String} loc_path 
+ * @returns 
+ */
+function javaDependencyCheck(loc_path) {
+    if (loc_path.indexOf('.jar') > -1 || loc_path.indexOf('.class') > -1 ) {
+        return true;
+    }
+    return false;
 }
 exports.breakpoint_export = breakpoint_export;
 //# sourceMappingURL=export.js.map
